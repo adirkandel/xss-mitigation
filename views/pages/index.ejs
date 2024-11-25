@@ -26,6 +26,15 @@
 
                 <button class="btn btn-primary w-100 py-2" type="submit">Register</button>
             </form>
+
+            <% if(params.users.length > 0) { %>
+            <select id="connect-user" class="form-select" style="margin-top: 30px;">
+                <option value="" disabled selected>Choose user to connect with</option>
+                <% params.users.forEach(function(user){ %>
+                    <option value="<%= user.id %>"><%= user.name %></option>
+                <% }); %>
+            </select>
+            <% } %>
         </div>
     </main>
     <script type="module" src="/scripts.js"></script>

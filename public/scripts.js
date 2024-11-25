@@ -7,6 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const redirectToUserPage = (userName) => {
+    location.href = `/${userName}`;
+};
 /****
 ** Home page
 ************/
@@ -47,8 +50,28 @@ if (registerForm) {
         })
             .then((result) => __awaiter(void 0, void 0, void 0, function* () {
             const user = yield result.json();
-            location.href = `/${user.name}`;
+            redirectToUserPage(user.name);
         }))
             .catch(console.error);
     });
 }
+/****
+** Choose user to connect with
+************/
+const selectUser = document.getElementById('connect-user');
+selectUser === null || selectUser === void 0 ? void 0 : selectUser.addEventListener('change', (e) => {
+    const target = e.target;
+    const userId = target.value;
+    fetch("/api/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: userId })
+    })
+        .then((result) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield result.json();
+        redirectToUserPage(user.name);
+    }))
+        .catch(console.error);
+});
